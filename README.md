@@ -215,7 +215,7 @@ We don't want this in our (* routes.rb *) file >> under the **config folder** `g
 ```
 ### ApplicationController
 * Before we do anything we need to fetch the users
-* Now we move onto a private function --- we fetch the user with a current user finding the user by ID within the user session 
+* Now we move onto a private function --- we fetch the user with a current user finding the user by ID within the user session
 ### Creating a Sign Out
 ```
 
@@ -237,6 +237,48 @@ def destroy
 end
 
 ```
+
+### Setting Up New Mixtapes
+*Under Views > mixtapes > new.html.erb*
+`rails generate controller Mixtapes new`
+
+### Editing Profiles
+`touch app/views/users/edit.html.erb`
+Go into the `user_controller`
+
+* Migration
+```
+rails generate migration add_name_to_users name:text
+rails db:migrate
+annotate
+```
+* Add a column to Names to users
+```
+<%= form_for @user do |f| %>
+  <%= f.label :email %>
+  <%= f.email_field :email %>
+
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+
+  <%= f.submit "Update Profile" %>
+<% end %>
+```
+> In users controller we add the definition of update
+```
+def update
+  user = User.find params[:id]
+  user.update user_params
+  redirect_to root_path
+end
+```
+
+Once the user submits the form the user is then now updated to the database
+
+
+### Admin Accounts
+* Simple build within users `index.html.erb`
+* Build as normal and secure it
 
 
 
